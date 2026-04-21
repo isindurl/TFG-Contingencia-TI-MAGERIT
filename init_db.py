@@ -1,12 +1,20 @@
 from app import create_app
-from app.models import db, Activo, Amenaza, Salvaguarda, Riesgo
+from app.models import db, Activo, Amenaza, Usuario
 from werkzeug.security import generate_password_hash
 
 app = create_app()
 
 with app.app_context():
+    db.drop_all()
     db.create_all()
     print("Base de datos inicializada correctamente.")
+
+    admin = Usuario(
+        username='admin',
+        password=generate_password_hash('admin123')
+    )
+    db.session.add(admin)
+    print("Usuario admin creado.")
 
     activos_iniciales = [
         Activo(nombre='Servidor ERP', categoria='Servidor',
@@ -56,4 +64,5 @@ with app.app_context():
 
     db.session.commit()
     print(f"Cargados {len(activos_iniciales)} activos y "
-          f"{len(amenazas_iniciales)} amenazas de ejemplo.")
+          f"{len(amenazas_iniciales)} amenazas.")
+    print("Listo. Accede con: admin / admin123")
