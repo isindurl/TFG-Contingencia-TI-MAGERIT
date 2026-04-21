@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+  <h2 style="color: #1C2B4A;">Inventario de activos TI</h2>
+  <a href="/activos/nuevo" class="btn btn-primary">+ Nuevo activo</a>
+</div>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th style="text-align:center;">D</th>
+        <th style="text-align:center;">C</th>
+        <th style="text-align:center;">I</th>
+        <th style="text-align:center;">A</th>
+        <th style="text-align:center;">T</th>
+        <th style="text-align:center;">Valor ACIDT</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for activo in activos %}
+      <tr>
+        <td><strong>{{ activo.nombre }}</strong></td>
+        <td>{{ activo.categoria }}</td>
+        <td style="text-align:center;">{{ activo.disponibilidad }}</td>
+        <td style="text-align:center;">{{ activo.confidencialidad }}</td>
+        <td style="text-align:center;">{{ activo.integridad }}</td>
+        <td style="text-align:center;">{{ activo.autenticidad }}</td>
+        <td style="text-align:center;">{{ activo.trazabilidad }}</td>
+        <td style="text-align:center; font-weight:bold; color:#1C2B4A;">{{ activo.valor_acidt }}</td>
+        <td style="color:#888; font-size:13px;">{{ activo.descripcion }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="9" style="text-align:center; color:#888;">
+          No hay activos registrados. 
+          <a href="/activos/nuevo">Añadir el primero</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div style="font-size: 12px; color: #888; margin-top: 8px;">
+  D = Disponibilidad · C = Confidencialidad · I = Integridad · 
+  A = Autenticidad · T = Trazabilidad
+</div>
+
+{% endblock %}
