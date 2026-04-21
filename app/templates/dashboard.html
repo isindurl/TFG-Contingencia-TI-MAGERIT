@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 style="margin-bottom: 20px; color: #1C2B4A;">Dashboard — Resumen del análisis de riesgos</h2>
+
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+  <div class="card" style="text-align: center; border-top: 4px solid #A32D2D;">
+    <p style="font-size: 13px; color: #888;">Riesgos críticos</p>
+    <p style="font-size: 36px; font-weight: bold; color: #A32D2D;">{{ resumen['Crítico'] }}</p>
+  </div>
+  <div class="card" style="text-align: center; border-top: 4px solid #854F0B;">
+    <p style="font-size: 13px; color: #888;">Riesgos altos</p>
+    <p style="font-size: 36px; font-weight: bold; color: #854F0B;">{{ resumen['Alto'] }}</p>
+  </div>
+  <div class="card" style="text-align: center; border-top: 4px solid #185FA5;">
+    <p style="font-size: 13px; color: #888;">Riesgos medios</p>
+    <p style="font-size: 36px; font-weight: bold; color: #185FA5;">{{ resumen['Medio'] }}</p>
+  </div>
+  <div class="card" style="text-align: center; border-top: 4px solid #3B6D11;">
+    <p style="font-size: 13px; color: #888;">Riesgos bajos</p>
+    <p style="font-size: 36px; font-weight: bold; color: #3B6D11;">{{ resumen['Bajo'] }}</p>
+  </div>
+</div>
+
+<div class="card">
+  <h3 style="margin-bottom: 16px; color: #1C2B4A;">Activos registrados — {{ activos|length }}</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Activo</th>
+        <th>Categoría</th>
+        <th>Valor ACIDT</th>
+        <th>Riesgos asociados</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for activo in activos %}
+      <tr>
+        <td>{{ activo.nombre }}</td>
+        <td>{{ activo.categoria }}</td>
+        <td style="text-align: center;">{{ activo.valor_acidt }}</td>
+        <td style="text-align: center;">{{ activo.riesgos|length }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4" style="text-align:center; color:#888;">No hay activos registrados.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h3 style="margin-bottom: 16px; color: #1C2B4A;">Últimos riesgos calculados</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Activo</th>
+        <th>Amenaza</th>
+        <th>Riesgo inherente</th>
+        <th>Riesgo residual</th>
+        <th>Nivel</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for riesgo in riesgos[-10:]|reverse %}
+      <tr>
+        <td>{{ riesgo.activo.nombre }}</td>
+        <td>{{ riesgo.amenaza.nombre }}</td>
+        <td style="text-align: center;">{{ riesgo.riesgo_inherente }}</td>
+        <td style="text-align: center;">{{ riesgo.riesgo_residual }}</td>
+        <td>
+          <span class="badge badge-{{ riesgo.nivel_riesgo|lower }}">
+            {{ riesgo.nivel_riesgo }}
+          </span>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" style="text-align:center; color:#888;">No hay riesgos calculados.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
