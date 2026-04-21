@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width: 600px; margin: 0 auto;">
+  <h2 style="color: #1C2B4A; margin-bottom: 20px;">Registrar nuevo activo TI</h2>
+
+  <div class="card">
+    <form method="POST">
+
+      <label>Nombre del activo</label>
+      <input type="text" name="nombre" required placeholder="Ej: Servidor ERP">
+
+      <label>Categoría</label>
+      <select name="categoria" required>
+        <option value="">Selecciona una categoría</option>
+        <option value="Servidor">Servidor</option>
+        <option value="Red">Red</option>
+        <option value="Datos">Datos</option>
+        <option value="Almacenamiento">Almacenamiento</option>
+        <option value="Aplicación">Aplicación</option>
+        <option value="Seguridad">Seguridad</option>
+      </select>
+
+      <label>Descripción</label>
+      <textarea name="descripcion" rows="3" 
+        placeholder="Descripción breve del activo"></textarea>
+
+      <p style="margin-top: 20px; font-size: 13px; color: #555; font-weight: bold;">
+        Valoración ACIDT (1 = muy bajo · 5 = muy alto)
+      </p>
+
+      <label>Disponibilidad (D)</label>
+      <select name="disponibilidad" required>
+        <option value="1">1 — Muy baja</option>
+        <option value="2">2 — Baja</option>
+        <option value="3">3 — Media</option>
+        <option value="4">4 — Alta</option>
+        <option value="5" selected>5 — Muy alta</option>
+      </select>
+
+      <label>Confidencialidad (C)</label>
+      <select name="confidencialidad" required>
+        <option value="1">1 — Muy baja</option>
+        <option value="2">2 — Baja</option>
+        <option value="3">3 — Media</option>
+        <option value="4">4 — Alta</option>
+        <option value="5" selected>5 — Muy alta</option>
+      </select>
+
+      <label>Integridad (I)</label>
+      <select name="integridad" required>
+        <option value="1">1 — Muy baja</option>
+        <option value="2">2 — Baja</option>
+        <option value="3">3 — Media</option>
+        <option value="4">4 — Alta</option>
+        <option value="5" selected>5 — Muy alta</option>
+      </select>
+
+      <label>Autenticidad (A)</label>
+      <select name="autenticidad" required>
+        <option value="1">1 — Muy baja</option>
+        <option value="2">2 — Baja</option>
+        <option value="3">3 — Media</option>
+        <option value="4">4 — Alta</option>
+        <option value="5" selected>5 — Muy alta</option>
+      </select>
+
+      <label>Trazabilidad (T)</label>
+      <select name="trazabilidad" required>
+        <option value="1">1 — Muy baja</option>
+        <option value="2">2 — Baja</option>
+        <option value="3">3 — Media</option>
+        <option value="4">4 — Alta</option>
+        <option value="5" selected>5 — Muy alta</option>
+      </select>
+
+      <div style="margin-top: 24px; display: flex; gap: 12px;">
+        <button type="submit" class="btn btn-primary">Guardar activo</button>
+        <a href="/activos" class="btn" 
+          style="background:#eee; color:#333;">Cancelar</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}
