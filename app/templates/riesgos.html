@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+  <h2 style="color: #1C2B4A;">Análisis de riesgos</h2>
+</div>
+
+<div class="card" style="margin-bottom: 24px;">
+  <h3 style="color: #1C2B4A; margin-bottom: 16px;">Calcular nuevo riesgo</h3>
+  <form method="POST" action="/riesgos/calcular">
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 16px; align-items: end;">
+      <div>
+        <label>Activo</label>
+        <select name="activo_id" required>
+          <option value="">Selecciona activo</option>
+          {% for activo in activos %}
+          <option value="{{ activo.id }}">{{ activo.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label>Amenaza</label>
+        <select name="amenaza_id" required>
+          <option value="">Selecciona amenaza</option>
+          {% for amenaza in amenazas %}
+          <option value="{{ amenaza.id }}">
+            {{ amenaza.nombre }} (prob. {{ amenaza.probabilidad }})
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label>Impacto (1-5)</label>
+        <select name="impacto" required>
+          <option value="1">1 — Muy bajo</option>
+          <option value="2">2 — Bajo</option>
+          <option value="3">3 — Medio</option>
+          <option value="4">4 — Alto</option>
+          <option value="5" selected>5 — Muy alto</option>
+        </select>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary">Calcular</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="card">
+  <h3 style="color: #1C2B4A; margin-bottom: 16px;">Resultados del análisis</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Activo</th>
+        <th>Amenaza</th>
+        <th style="text-align:center;">Probabilidad</th>
+        <th style="text-align:center;">Impacto</th>
+        <th style="text-align:center;">Riesgo inherente</th>
+        <th style="text-align:center;">Riesgo residual</th>
+        <th style="text-align:center;">Nivel</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for riesgo in riesgos %}
+      <tr>
+        <td><strong>{{ riesgo.activo.nombre }}</strong></td>
+        <td>{{ riesgo.amenaza.nombre }}</td>
+        <td style="text-align:center;">{{ riesgo.amenaza.probabilidad }}</td>
+        <td style="text-align:center;">{{ riesgo.impacto }}</td>
+        <td style="text-align:center; font-weight:bold;">
+          {{ riesgo.riesgo_inherente }}
+        </td>
+        <td style="text-align:center;">{{ riesgo.riesgo_residual }}</td>
+        <td style="text-align:center;">
+          <span class="badge badge-{{ riesgo.nivel_riesgo|lower }}">
+            {{ riesgo.nivel_riesgo }}
+          </span>
+        </td>
+        <td style="font-size:12px; color:#888;">
+          {{ riesgo.fecha.strftime('%d/%m/%Y %H:%M') }}
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="8" style="text-align:center; color:#888;">
+          No hay riesgos calculados. Usa el formulario de arriba.
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
